@@ -14,14 +14,12 @@
         <section class="about">
             <h2>About Me</h2>
             <p>
-                <!-- Replace this with your dad's story! -->
                 I'm a passionate artist who loves painting landscapes, portraits, and abstract art. My work reflects dedication, creativity, and a lifelong love for colors.
             </p>
         </section>
         <section class="contact">
             <h2>Contact Info</h2>
             <p>
-                <!-- Replace this with your preferred contact info! -->
                 Email: shankarmasuna55@gmail.com <br>
                 Phone: +91 8309456414, +91 9381337951
             </p>
@@ -34,9 +32,37 @@
                 <!-- Add more images as needed -->
             </div>
         </section>
+        <!-- Modal Section -->
+        <div id="imgModal" class="modal">
+            <span class="close">&times;</span>
+            <img class="modal-content" id="modalImg">
+            <div id="caption"></div>
+        </div>
     </main>
     <footer>
         <p>&copy; 2025 Shankar's Art Gallery</p>
     </footer>
+    <script>
+        // Modal functionality
+        var modal = document.getElementById("imgModal");
+        var modalImg = document.getElementById("modalImg");
+        var captionText = document.getElementById("caption");
+        var images = document.querySelectorAll('.gallery-grid img');
+        images.forEach(function(img) {
+            img.onclick = function(){
+                modal.style.display = "block";
+                modalImg.src = this.src;
+                captionText.innerHTML = this.alt;
+            }
+        });
+        document.querySelector(".close").onclick = function() {
+            modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>
