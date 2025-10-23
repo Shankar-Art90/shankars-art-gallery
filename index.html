@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Shankar's Art Gallery</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <header>
@@ -17,24 +18,33 @@
                 I'm a passionate artist who loves painting landscapes, portraits, and abstract art. My work reflects dedication, creativity, and a lifelong love for colors.
             </p>
         </section>
-        <section class="contact">
-            <h2>Contact Info</h2>
-            <p>
-                Email: shankarmasuna55@gmail.com <br>
-                Phone: +91 8309456414, +91 9381337951
-            </p>
-        </section>
         <section class="gallery">
             <h2>Gallery</h2>
             <div class="gallery-grid">
                 <img src="images/DSC_0174_2.JPG" alt="Painting 1">
                 <img src="images/DSC_0197.JPG" alt="Painting 2">
+                <img src="images/IMG_20220425_072336_Bokeh.jpg" alt="Painting 3">
                 <!-- Add more images as needed -->
             </div>
+            <div class="catalog-link-container">
+                <a href="catalog.html" class="catalog-link">View Full Catalog <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </section>
+        <section class="contact">
+            <h2>Contact Info</h2>
+            <p>
+                Email: shankarmasuna55@gmail.com <br>
+                Phone: +91 8309456414, +91 9381337951 <br>
+                <a href="https://www.instagram.com/shankarmasunamasuna/" class="social-link" target="_blank">
+                    <i class="fab fa-instagram"></i> Follow me on Instagram
+                </a>
+            </p>
         </section>
         <!-- Modal Section -->
         <div id="imgModal" class="modal">
             <span class="close">&times;</span>
+            <span class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></span>
+            <span class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></span>
             <img class="modal-content" id="modalImg">
             <div id="caption"></div>
         </div>
@@ -48,21 +58,58 @@
         var modalImg = document.getElementById("modalImg");
         var captionText = document.getElementById("caption");
         var images = document.querySelectorAll('.gallery-grid img');
-        images.forEach(function(img) {
+        var currentImageIndex = 0;
+        
+        // Open modal when clicking on an image
+        images.forEach(function(img, index) {
             img.onclick = function(){
-                modal.style.display = "block";
-                modalImg.src = this.src;
-                captionText.innerHTML = this.alt;
+                currentImageIndex = index;
+                openModal(this.src, this.alt);
             }
         });
+        
+        // Function to open modal with specific image
+        function openModal(src, alt) {
+            modal.style.display = "block";
+            modalImg.src = src;
+            captionText.innerHTML = alt;
+        }
+        
+        // Close modal when clicking on X
         document.querySelector(".close").onclick = function() {
             modal.style.display = "none";
         }
+        
+        // Close modal when clicking outside the image
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
         }
+        
+        // Navigation functionality
+        document.querySelector(".prev-btn").onclick = function() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            openModal(images[currentImageIndex].src, images[currentImageIndex].alt);
+        }
+        
+        document.querySelector(".next-btn").onclick = function() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            openModal(images[currentImageIndex].src, images[currentImageIndex].alt);
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(event) {
+            if (modal.style.display === "block") {
+                if (event.key === "ArrowLeft") {
+                    document.querySelector(".prev-btn").click();
+                } else if (event.key === "ArrowRight") {
+                    document.querySelector(".next-btn").click();
+                } else if (event.key === "Escape") {
+                    modal.style.display = "none";
+                }
+            }
+        });
     </script>
 </body>
 </html>
